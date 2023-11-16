@@ -1,0 +1,44 @@
+{
+  "name": "platform-admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.427.0",
+    "@aws-sdk/s3-request-presigner": "^3.427.0",
+    "@hookform/resolvers": "^3.3.1",
+    "@nextui-org/react": "^2.1.13",
+    "@tanstack/react-query": "^4.36.1",
+    "@tanstack/react-query-devtools": "^4.36.1",
+    "axios": "^1.5.1",
+    "framer-motion": "^10.16.4",
+    "next": "13.5.4",
+    "query-string": "^8.1.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.47.0",
+    "react-icons": "^4.11.0",
+    "zod": "^3.22.4",
+    "zustand": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.36.1",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10",
+    "eslint": "^8",
+    "eslint-config-next": "13.5.4",
+    "postcss": "^8",
+    "tailwindcss": "^3",
+    "typescript": "^5"
+  }
+}

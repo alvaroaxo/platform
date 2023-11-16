@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.wolfe.platform</groupId>
+    <artifactId>wolfe-platform</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <name>wolfe-platform</name>
+
+    <modules>
+        <module>wp-parent-boot</module>
+        <module>wp-parent-kafka</module>
+        <module>wp-core-jpa</module>
+        <module>wp-core-command</module>
+        <module>wp-core-postgresql</module>
+        <module>wp-core-rest</module>
+        <module>wp-core-kafka</module>
+        <module>wp-core-kafka-confluent</module>
+        <module>wp-core-kafka-aws</module>
+        <module>wp-core-api</module>
+        <module>wp-core-common</module>
+        <module>wp-core-aws</module>
+        <module>wp-core-swagger</module>
+        <module>wp-core-reactive</module>
+        <module>wp-core-redemption</module>
+        <module>wp-kafka-account-model</module>
+        <module>wp-kafka-account</module>
+        <module>wp-kafka-account-consumer</module>
+        <module>wp-kafka-account-producer</module>
+        <module>wp-kafka-partner</module>
+        <module>wp-kafka-partner-consumer</module>
+        <module>wp-kafka-partner-producer</module>
+        <module>wp-kafka-merchant-model</module>
+        <module>wp-kafka-gift</module>
+        <module>wp-kafka-gift-consumer</module>
+        <module>wp-kafka-gift-producer</module>
+        <module>wp-kafka-gift-model</module>
+        <module>wp-kafka-wcp</module>
+        <module>wp-kafka-wcp-producer</module>
+        <module>wp-kafka-wcp-consumer</module>
+        <module>wp-kafka-pnc</module>
+        <module>wp-kafka-pnc-consumer</module>
+        <module>wp-kafka-pnc-producer</module>
+        <module>wp-kafka-redemption</module>
+        <module>wp-kafka-redemption-consumer</module>
+        <module>wp-kafka-redemption-producer</module>
+        <module>wp-kafka-redemption-model</module>
+        <module>wp-kafka-tabapay</module>
+        <module>wp-kafka-tabapay-consumer</module>
+        <module>wp-kafka-tabapay-producer</module>
+        <module>wp-kafka-visa</module>
+        <module>wp-kafka-visa-consumer</module>
+        <module>wp-kafka-visa-producer</module>
+        <module>wp-kafka-card</module>
+        <module>wp-kafka-card-consumer</module>
+        <module>wp-kafka-card-producer</module>
+        <module>wp-partner-service-api-spec</module>
+        <module>wp-merchant-service-api-spec</module>
+        <module>wp-gift-service-api-spec</module>
+        <module>wp-account-service-api-spec</module>
+        <module>wp-redemption-service-api-spec</module>
+        <module>wp-pnc-service-api-spec</module>
+        <module>wp-wcp-service-api-spec</module>
+        <module>wp-card-service-api-spec</module>
+        <module>wp-visa-service-api-spec</module>
+        <module>wp-tabapay-service-api-spec</module>
+        <module>wp-partner-service</module>
+        <module>wp-merchant-service</module>
+        <module>wp-account-service</module>
+        <module>wp-gift-service</module>
+        <module>wp-redemption-service</module>
+        <module>wp-pnc-service</module>
+        <module>wp-wcp-service</module>
+        <module>wp-tabapay-service</module>
+        <module>wp-visa-service</module>
+        <module>wp-fidel-service</module>
+        <module>wp-api-gateway</module>
+        <module>wp-api-partner</module>
+        <module>wp-api-partner-v1</module>
+        <module>wp-api-partner-v2</module>
+        <module>wp-card-service</module>
+        <module>wp-partner-service-client</module>
+        <module>wp-merchant-service-client</module>
+        <module>wp-gift-service-client</module>
+        <module>wp-account-service-client</module>
+        <module>wp-redemption-service-client</module>
+        <module>wp-pnc-service-client</module>
+        <module>wp-wcp-service-client</module>
+        <module>wp-card-service-client</module>
+        <module>wp-visa-service-client</module>
+        <module>wp-tabapay-service-client</module>
+    </modules>
+
+</project>

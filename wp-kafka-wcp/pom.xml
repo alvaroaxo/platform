@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.wolfe.platform</groupId>
+        <artifactId>wp-parent-kafka</artifactId>
+        <version>1.0</version>
+        <relativePath>../wp-parent-kafka</relativePath>
+    </parent>
+
+    <artifactId>wp-kafka-wcp</artifactId>
+
+    <name>wp-kafka-wcp</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.wolfe.platform</groupId>
+            <artifactId>wp-core-kafka</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.wolfe.platform</groupId>
+            <artifactId>wp-kafka-gift</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>${avro-maven-plugin.version}</version>
+                <configuration>
+                    <imports>
+                        <import>${project.basedir}/src/main/avro/model/wcp_address.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/wcp_phone_number.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/wcp_contact_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/wcp_personal_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/wcp_recipient_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/wcp_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/request_key.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/domain/create_gift_config_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/domain/init_card_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/domain/init_create_card_saga_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/wcp_request_person.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/wcp_create_card_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/wcp_create_card_repan_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/wcp_create_card_reprint_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/wcp_load_card_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/wcp_get_card_detail_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/reply/wcp_create_card_reply.avsc</import>
+                        <import>${project.basedir}/src/main/avro/reply/wcp_create_card_repan_reply.avsc</import>
+                        <import>${project.basedir}/src/main/avro/reply/wcp_create_card_reprint_reply.avsc</import>
+                    </imports>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

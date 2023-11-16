@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DatabaseMigrationSettings" lastSelectedDirectory="db/changelog/#date(&quot;yyyy&quot;)/#date(&quot;MM&quot;)">
+    <database-infos>
+      <database-info>
+        <option name="enabled" value="true" />
+        <dbms-id>postgres</dbms-id>
+      </database-info>
+    </database-infos>
+  </component>
+  <component name="PersistenceUnitSettings">
+    <persistence-units>
+      <persistence-unit name="wp-partner-service" defaultIncludeChangeLogFile="wp-partner-service/src/main/resources/db/changelog/db.changelog-partner.xml">
+        <packages>
+          <package value="com.wolfe.platform.partner.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit name="wp-merchant-service" defaultIncludeChangeLogFile="wp-merchant-service/src/main/resources/db/changelog/db.changelog-merchant.xml">
+        <packages>
+          <package value="com.wolfe.platform.merchant.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit name="wp-account-service" defaultIncludeChangeLogFile="wp-account-service/src/main/resources/db/changelog/db.changelog-account.xml">
+        <packages>
+          <package value="com.wolfe.platform.account.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit name="wp-gift-service" defaultIncludeChangeLogFile="wp-gift-service/src/main/resources/db/changelog/db.changelog-gift.xml">
+        <packages>
+          <package value="com.wolfe.platform.gift.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit name="wp-redemption-service" defaultIncludeChangeLogFile="wp-redemption-service/src/main/resources/db/changelog/db.changelog-redemption.xml">
+        <packages>
+          <package value="com.wolfe.platform.redemption.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit name="wp-pnc-service" defaultIncludeChangeLogFile="wp-pnc-service/src/main/resources/db/changelog/db.changelog-pnc.xml">
+        <packages>
+          <package value="com.wolfe.platform.pnc.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit name="wp-wcp-service" defaultIncludeChangeLogFile="wp-wcp-service/src/main/resources/db/changelog/db.changelog-wcp.xml">
+        <packages>
+          <package value="com.wolfe.platform.wcp.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit name="wp-tabapay-service" defaultIncludeChangeLogFile="wp-tabapay-service/src/main/resources/db/changelog/db.changelog-tabapay.xml">
+        <packages>
+          <package value="com.wolfe.platform.tabapay.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit name="wp-visa-service" defaultIncludeChangeLogFile="wp-visa-service/src/main/resources/db/changelog/db.changelog-visa.xml">
+        <packages>
+          <package value="com.wolfe.platform.visa.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit name="wp-fidel-service" defaultIncludeChangeLogFile="wp-fidel-service/src/main/resources/db/changelog/db.changelog-fidel.xml">
+        <packages>
+          <package value="com.wolfe.platform.fidel.service" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit name="wp-card-service" defaultIncludeChangeLogFile="wp-card-service/src/main/resources/db/changelog/db.changelog-card.xml">
+        <packages>
+          <package value="com.wolfe.platform.card.service" />
+        </packages>
+      </persistence-unit>
+    </persistence-units>
+  </component>
+</project>

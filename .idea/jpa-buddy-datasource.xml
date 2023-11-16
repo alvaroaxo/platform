@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpbDataSourceConfig">
+    <data-source-infos>
+      <data-source-info id="72dfb871-f948-475c-a70e-94814d5a8d02" persistence-unit-name="wp-partner-service" />
+      <data-source-info id="fda113b9-6a6e-4129-b047-80fbe6f89eda" persistence-unit-name="wp-merchant-service" />
+      <data-source-info id="18711e2b-b1d2-4597-b086-c157b7af3eb9" persistence-unit-name="wp-account-service" />
+      <data-source-info id="0c08b84a-6710-4946-95be-ee53cdfc0aec" persistence-unit-name="wp-gift-service" />
+      <data-source-info id="a34bd343-a393-48e9-a9bd-1e62fa84c9f8" persistence-unit-name="wp-redemption-service" />
+      <data-source-info id="a9877595-4d54-4435-8467-f41b73516ce8" persistence-unit-name="wp-pnc-service" />
+      <data-source-info id="a08bc5d2-ec15-451c-8c6f-68d70302a5eb" persistence-unit-name="wp-wcp-service" />
+      <data-source-info id="ae3aa56b-0af9-44e4-8bbc-edfaa28dadca" persistence-unit-name="wp-tabapay-service" />
+      <data-source-info id="805af5d9-f403-4b69-8939-d5dfadedeacf" persistence-unit-name="wp-visa-service" />
+      <data-source-info id="136ea90e-8b28-48c5-be01-499f3ae2d060" persistence-unit-name="wp-fidel-service" />
+      <data-source-info id="88b21cd1-884c-4651-a7c8-57a3698ff26b" persistence-unit-name="wp-card-service" />
+    </data-source-infos>
+  </component>
+</project>

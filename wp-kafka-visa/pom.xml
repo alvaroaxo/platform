@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.wolfe.platform</groupId>
+        <artifactId>wp-parent-kafka</artifactId>
+        <version>1.0</version>
+        <relativePath>../wp-parent-kafka</relativePath>
+    </parent>
+
+    <artifactId>wp-kafka-visa</artifactId>
+    <name>wp-kafka-visa</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.wolfe.platform</groupId>
+            <artifactId>wp-core-kafka</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>${avro-maven-plugin.version}</version>
+                <configuration>
+                    <imports>
+                        <import>${project.basedir}/src/main/avro/request/request_key.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/activate_offer_activation_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/activate_offer_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/add_merchant_to_group_merchant_details_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/add_merchant_to_group_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/deactivate_offer_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/delete_merchant_from_group_merchant_details_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/delete_merchant_from_group_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/enroll_user_user_details_cards_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/enroll_user_user_details_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/enroll_user_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/unenroll_user_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/get_transactions_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/onboard_merchant_merchant_details_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/onboard_merchant_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/select_merchants_request.avsc</import>
+                    </imports>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

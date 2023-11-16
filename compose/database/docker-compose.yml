@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+
+  wp-db:
+    image: ${PG_12_IMAGE}
+    restart: always
+    hostname: wp-db
+    container_name: wp-db
+    environment:
+      POSTGRES_USER: postgresdb
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - wp-db:/var/lib/postgresql/data
+      - ./init-user-db.sh:/docker-entrypoint-initdb.d/init-user-db.sh
+    networks:
+      - compose-net
+
+volumes:
+  wp-db:
+    name: wp-db
+
+networks:
+  compose-net:
+    external: true

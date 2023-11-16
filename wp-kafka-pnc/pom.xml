@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.wolfe.platform</groupId>
+        <artifactId>wp-parent-kafka</artifactId>
+        <version>1.0</version>
+        <relativePath>../wp-parent-kafka</relativePath>
+    </parent>
+
+    <artifactId>wp-kafka-pnc</artifactId>
+
+    <name>wp-kafka-pnc</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.wolfe.platform</groupId>
+            <artifactId>wp-core-kafka</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>${avro-maven-plugin.version}</version>
+                <configuration>
+                    <imports>
+                        <import>${project.basedir}/src/main/avro/model/pnc_model_phone_number.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/pnc_model_contact_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/pnc_model_personal_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/pnc_model_address.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/pnc_model_recipient_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/pnc_model_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/pnc_model_zelle_recipient.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/pnc_model_zelle_personal_profile.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/pnc_model_zelle_token.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/pnc_model_zelle_active_payment_profile.avsc</import>
+                        <import>${project.basedir}/src/main/avro/model/pnc_model_zelle_recipient_detail.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/domain/pnc_add_gift_config_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/domain/pnc_add_payment_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/domain/pnc_start_create_payment_saga_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/pnc_request_key.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/dto/pnc_pre_defined_field.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/dto/pnc_person_address.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/dto/pnc_person.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/pnc_lookup_recipient_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/pnc_create_payment_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/request/processor/pnc_retrieve_payment_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/reply/pnc_lookup_recipient_reply.avsc</import>
+                        <import>${project.basedir}/src/main/avro/reply/pnc_create_payment_reply.avsc</import>
+                    </imports>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

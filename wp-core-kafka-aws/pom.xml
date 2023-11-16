@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.wolfe.platform</groupId>
+        <artifactId>wp-parent-kafka</artifactId>
+        <version>1.0</version>
+        <relativePath>../wp-parent-kafka</relativePath>
+    </parent>
+
+    <artifactId>wp-core-kafka-aws</artifactId>
+
+    <name>wp-core-kafka-aws</name>
+
+    <properties>
+        <software.amazon.glue.version>1.1.16</software.amazon.glue.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>software.amazon.glue</groupId>
+            <artifactId>schema-registry-common</artifactId>
+            <version>${software.amazon.glue.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.glue</groupId>
+            <artifactId>schema-registry-serde</artifactId>
+            <version>${software.amazon.glue.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

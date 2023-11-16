@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.wolfe.platform</groupId>
+        <artifactId>wp-parent-boot</artifactId>
+        <version>1.0</version>
+        <relativePath>../wp-parent-boot</relativePath>
+    </parent>
+
+    <artifactId>wp-core-jpa</artifactId>
+
+    <name>wp-core-jpa</name>
+
+    <properties>
+        <hibernate-types-52.version>2.11.1</hibernate-types-52.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.wolfe.platform</groupId>
+            <artifactId>wp-core-common</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.vladmihalcea</groupId>
+            <artifactId>hibernate-types-52</artifactId>
+            <version>${hibernate-types-52.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

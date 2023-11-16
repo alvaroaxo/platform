@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+:root {
+  height: 100%;
+}
+
+@keyframes smoothScroll {
+  from {
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    /*scroll-snap-points-x: repeat(100%);*/
+    scroll-snap-stop: always;
+    scroll-snap-align: center;
+  }
+  to {
+    scroll-behavior: initial;
+  }
+}
+
+.row {
+  @apply flex flex-row;
+}

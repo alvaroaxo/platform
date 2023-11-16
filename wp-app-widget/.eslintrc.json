@@ -1,0 +1,14 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:testing-library/react",
+    "plugin:jest-dom/recommended"
+  ],
+  "rules": {
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "react/jsx-curly-spacing": ["error", "always"],
+    "object-curly-spacing": ["error", "always"],
+    "semi": ["error", "never"],
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+  }
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.wolfe.platform</groupId>
+        <artifactId>wp-parent-kafka</artifactId>
+        <version>1.0</version>
+        <relativePath>../wp-parent-kafka</relativePath>
+    </parent>
+
+    <artifactId>wp-kafka-tabapay</artifactId>
+
+    <name>wp-kafka-tabapay</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.wolfe.platform</groupId>
+            <artifactId>wp-core-kafka</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>${avro-maven-plugin.version}</version>
+                <configuration>
+                    <imports>
+                        <import>${project.basedir}/src/main/avro/tabapay_request_key.avsc</import>
+                        <import>${project.basedir}/src/main/avro/account_card.avsc</import>
+                        <import>${project.basedir}/src/main/avro/account_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/account_owner_name.avsc</import>
+                        <import>${project.basedir}/src/main/avro/account_owner_address.avsc</import>
+                        <import>${project.basedir}/src/main/avro/account_owner_phone.avsc</import>
+                        <import>${project.basedir}/src/main/avro/account_owner.avsc</import>
+                        <import>${project.basedir}/src/main/avro/transaction_soft_descriptor_address.avsc</import>
+                        <import>${project.basedir}/src/main/avro/transaction_soft_descriptor_phone.avsc</import>
+                        <import>${project.basedir}/src/main/avro/transaction_soft_descriptor.avsc</import>
+                        <import>${project.basedir}/src/main/avro/transaction_account.avsc</import>
+                        <import>${project.basedir}/src/main/avro/create_account_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/retrieve_account_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/delete_account_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/create_transaction_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/retrieve_transaction_request.avsc</import>
+                        <import>${project.basedir}/src/main/avro/query_card_request.avsc</import>
+                    </imports>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

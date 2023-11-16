@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+:root {
+  height: 100%;
+}
+
+@keyframes smoothScroll {
+  from {
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    /*scroll-snap-points-x: repeat(100%);*/
+    scroll-snap-stop: always;
+    scroll-snap-align: center;
+  }
+  to {
+    scroll-behavior: initial;
+  }
+}
+
+.row {
+  @apply flex flex-row;
+}
+
+.row-reverse {
+  @apply flex flex-row-reverse;
+}
+
+.custom-international-phone {
+  --react-international-phone-height: 56px;
+  --react-international-phone-border-radius: 12px;
+  --react-international-phone-border-color: #fffff;
+  border-radius: 12px;
+  --react-international-phone-font-size: 1rem;
+}

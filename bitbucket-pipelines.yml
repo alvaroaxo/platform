@@ -1,0 +1,868 @@
+definitions:
+
+  maven-image: &maven-image
+    name: public.ecr.aws/docker/library/maven:3-amazoncorretto-17
+
+  steps:
+    - step: &run-compile
+        name: Compile
+        image: *maven-image
+        caches:
+          - maven
+        script:
+          - mvn -B --file pom.xml clean generate-sources compile -P prod
+    - step: &run-test
+        name: Test
+        image: *maven-image
+        caches:
+          - maven
+        script:
+          - mvn -B --file pom.xml clean generate-sources test -P prod
+    - step: &compile
+        name: Compile
+        image: *maven-image
+        caches:
+          - maven
+        script:
+          - mvn -B --file pom.xml clean package -P prod -DskipTests
+        artifacts:
+          - wp-partner-service/{Dockerfile,target/*.jar}
+          - wp-merchant-service/{Dockerfile,target/*.jar}
+          - wp-gift-service/{Dockerfile,target/*.jar}
+          - wp-redemption-service/{Dockerfile,target/*.jar}
+          - wp-account-service/{Dockerfile,target/*.jar}
+          - wp-pnc-service/{Dockerfile,target/*.jar}
+          - wp-wcp-service/{Dockerfile,target/*.jar}
+          - wp-card-service/{Dockerfile,target/*.jar}
+          - wp-fidel-service/{Dockerfile,target/*.jar}
+          - wp-tabapay-service/{Dockerfile,target/*.jar}
+          - wp-visa-service/{Dockerfile,target/*.jar}
+          - wp-fidel-service/{Dockerfile,target/*.jar}
+          - wp-api-gateway/{Dockerfile,target/*.jar}
+          - wp-api-partner-v1/{Dockerfile,target/*.jar}
+          - wp-api-partner-v2/{Dockerfile,target/*.jar}
+          - wp-api-partner/{Dockerfile,target/*.jar}
+    - step: &push-wp-partner-service
+        name: Build Partner Service
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-partner-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-partner-service
+        name: Deploy Partner Service
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-partner-service
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-partner-service
+        name: Build Partner Service
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-partner-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-merchant-service
+        name: Build Merchant Service
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-merchant-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-merchant-service
+        name: Deploy Merchant Service
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-merchant-service
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-merchant-service
+        name: Build Merchant Service
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-merchant-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-gift-service
+        name: Build Gift Service
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-gift-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-gift-service
+        name: Deploy Gift Service
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-gift-service
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-gift-service
+        name: Build Gift Service
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-gift-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-redemption-service
+        name: Build Redemption Service
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-redemption-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-redemption-service
+        name: Deploy Redemption Service
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-redemption-service
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-redemption-service
+        name: Build Redemption Service
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-redemption-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-account-service
+        name: Build Account Service
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-account-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-account-service
+        name: Deploy Account Service
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-account-service
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-account-service
+        name: Build Account Service
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-account-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-pnc-service
+        name: Build PNC Service
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-pnc-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-pnc-service
+        name: Deploy PNC Service
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-pnc-service
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-pnc-service
+        name: Build PNC Service
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-pnc-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-wcp-service
+        name: Build WCP Service
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-wcp-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-wcp-service
+        name: Deploy WCP Service
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-wcp-service
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-wcp-service
+        name: Build WCP Service
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-wcp-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-card-service
+        name: Build Card Service
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-card-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-card-service
+        name: Deploy Card Service
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-card-service
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-card-service
+        name: Build Card Service
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-card-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-tabapay-service
+        name: Build Tabapay Service
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-tabapay-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-tabapay-service
+        name: Deploy Tabapay Service
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-tabapay-service
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-tabapay-service
+        name: Build Tabapay Service
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-tabapay-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-visa-service
+        name: Build Visa Service
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-visa-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-visa-service
+        name: Deploy Visa Service
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-visa-service
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-visa-service
+        name: Build Visa Service
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-visa-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-fidel-service
+        name: Build Fidel Service
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-fidel-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-fidel-service
+        name: Deploy Fidel Service
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-fidel-service
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-fidel-service
+        name: Build Fidel Service
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-fidel-service
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-api-gateway
+        name: Build Admin Api
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-api-gateway
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-api-gateway
+        name: Deploy Admin Api
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-api-gateway
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-api-gateway
+        name: Build Admin Api
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-api-gateway
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-api-partner-v1
+        name: Build Partner Api v1.0
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-api-partner-v1
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-api-partner-v1
+        name: Deploy Partner Api v1.0
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-api-partner-v1
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-api-partner-v1
+        name: Build Partner Api v1.0
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-api-partner-v1
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-api-partner-v2
+        name: Build Partner Api v2.0
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-api-partner-v2
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-api-partner-v2
+        name: Deploy Partner Api v2.0
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-api-partner-v2
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-api-partner-v2
+        name: Build Partner Api v2.0
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-api-partner-v2
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+    - step: &push-wp-api-partner
+        name: Build Partner Api
+        caches:
+          - docker
+        script:
+          - if [ $BITBUCKET_BRANCH != "master" ]; then IMAGE_TAG=$BITBUCKET_BRANCH; else IMAGE_TAG=latest; fi
+          - IMAGE_NAME=wp-api-partner
+          - docker build -t $IMAGE_NAME:$BITBUCKET_BRANCH -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $IMAGE_TAG
+    - step: &sandbox-wp-api-partner
+        name: Deploy Partner Api
+        caches:
+          - docker
+        script:
+          - SERVICE_NAME=wp-api-partner
+          - pipe: atlassian/aws-ecs-deploy:1.9.1
+            variables:
+              AWS_ACCESS_KEY_ID: $DEV_AWS_ACCCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              CLUSTER_NAME: $CLUSTER_NAME
+              SERVICE_NAME: $SERVICE_NAME
+              FORCE_NEW_DEPLOYMENT: 'true'
+    - step: &tag-wp-api-partner
+        name: Build Partner Api
+        caches:
+          - docker
+        script:
+          - IMAGE_NAME=wp-api-partner
+          - docker build -t $IMAGE_NAME:$BITBUCKET_TAG -t $IMAGE_NAME ./$IMAGE_NAME
+          - pipe: atlassian/aws-ecr-push-image:2.2.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: 'us-east-2'
+              IMAGE_NAME: $IMAGE_NAME
+              TAGS: $BITBUCKET_TAG
+
+image: atlassian/pipelines-awscli
+
+options:
+  docker: true
+
+pipelines:
+  default:
+    - parallel:
+        fail-fast: true
+        steps:
+          - step: *run-compile
+          - step: *run-test
+
+  branches:
+    'master':
+      - step: *compile
+      - parallel:
+          - step: *push-wp-partner-service
+          - step: *push-wp-merchant-service
+          - step: *push-wp-gift-service
+          - step: *push-wp-redemption-service
+          - step: *push-wp-account-service
+          - step: *push-wp-pnc-service
+          - step: *push-wp-wcp-service
+          - step: *push-wp-card-service
+          - step: *push-wp-tabapay-service
+          - step: *push-wp-visa-service
+          - step: *push-wp-fidel-service
+          - step: *push-wp-api-gateway
+          - step: *push-wp-api-partner-v1
+          - step: *push-wp-api-partner-v2
+          - step: *push-wp-api-partner
+    'develop':
+      - step: *compile
+      - parallel:
+          - step: *push-wp-partner-service
+          - step: *push-wp-merchant-service
+          - step: *push-wp-gift-service
+          - step: *push-wp-redemption-service
+          - step: *push-wp-account-service
+          - step: *push-wp-pnc-service
+          - step: *push-wp-wcp-service
+          - step: *push-wp-card-service
+          - step: *push-wp-tabapay-service
+          - step: *push-wp-visa-service
+          - step: *push-wp-fidel-service
+          - step: *push-wp-api-gateway
+          - step: *push-wp-api-partner-v1
+          - step: *push-wp-api-partner-v2
+          - step: *push-wp-api-partner
+    'sandbox':
+      - step: *compile
+      - parallel:
+          - step: *push-wp-partner-service
+          - step: *push-wp-merchant-service
+          - step: *push-wp-gift-service
+          - step: *push-wp-redemption-service
+          - step: *push-wp-account-service
+          - step: *push-wp-pnc-service
+          - step: *push-wp-wcp-service
+          - step: *push-wp-card-service
+          - step: *push-wp-tabapay-service
+          - step: *push-wp-visa-service
+          - step: *push-wp-fidel-service
+          - step: *push-wp-api-gateway
+          - step: *push-wp-api-partner-v1
+          - step: *push-wp-api-partner-v2
+          - step: *push-wp-api-partner
+      - stage:
+          name: Sandbox Deployment
+          deployment: Sandbox
+          steps:
+            - step: *sandbox-wp-partner-service
+            - step: *sandbox-wp-merchant-service
+            - step: *sandbox-wp-gift-service
+            - step: *sandbox-wp-redemption-service
+            - step: *sandbox-wp-account-service
+            - step: *sandbox-wp-pnc-service
+            - step: *sandbox-wp-wcp-service
+            - step: *sandbox-wp-card-service
+            - step: *sandbox-wp-visa-service
+            - step: *sandbox-wp-fidel-service
+            - step: *sandbox-wp-tabapay-service
+            - step: *sandbox-wp-api-gateway
+            - step: *sandbox-wp-api-partner-v1
+            - step: *sandbox-wp-api-partner-v2
+            - step: *sandbox-wp-api-partner
+    'staging':
+      - step: *compile
+      - parallel:
+          - step: *push-wp-partner-service
+          - step: *push-wp-merchant-service
+          - step: *push-wp-gift-service
+          - step: *push-wp-redemption-service
+          - step: *push-wp-account-service
+          - step: *push-wp-pnc-service
+          - step: *push-wp-wcp-service
+          - step: *push-wp-card-service
+          - step: *push-wp-tabapay-service
+          - step: *push-wp-visa-service
+          - step: *push-wp-fidel-service
+          - step: *push-wp-api-gateway
+          - step: *push-wp-api-partner-v1
+          - step: *push-wp-api-partner-v2
+          - step: *push-wp-api-partner
+    'release':
+      - step: *compile
+      - parallel:
+          - step: *push-wp-partner-service
+          - step: *push-wp-merchant-service
+          - step: *push-wp-gift-service
+          - step: *push-wp-redemption-service
+          - step: *push-wp-account-service
+          - step: *push-wp-pnc-service
+          - step: *push-wp-wcp-service
+          - step: *push-wp-card-service
+          - step: *push-wp-tabapay-service
+          - step: *push-wp-visa-service
+          - step: *push-wp-fidel-service
+          - step: *push-wp-api-gateway
+          - step: *push-wp-api-partner-v1
+          - step: *push-wp-api-partner-v2
+          - step: *push-wp-api-partner
+  tags:
+    'sandbox-*':
+      - step: *compile
+      - parallel:
+          - step: *tag-wp-partner-service
+          - step: *tag-wp-merchant-service
+          - step: *tag-wp-gift-service
+          - step: *tag-wp-redemption-service
+          - step: *tag-wp-account-service
+          - step: *tag-wp-pnc-service
+          - step: *tag-wp-wcp-service
+          - step: *tag-wp-card-service
+          - step: *tag-wp-tabapay-service
+          - step: *tag-wp-visa-service
+          - step: *tag-wp-fidel-service
+          - step: *tag-wp-api-gateway
+          - step: *tag-wp-api-partner-v1
+          - step: *tag-wp-api-partner-v2
+          - step: *tag-wp-api-partner
+    'staging-*':
+      - step: *compile
+      - parallel:
+          - step: *tag-wp-partner-service
+          - step: *tag-wp-merchant-service
+          - step: *tag-wp-gift-service
+          - step: *tag-wp-redemption-service
+          - step: *tag-wp-account-service
+          - step: *tag-wp-pnc-service
+          - step: *tag-wp-wcp-service
+          - step: *tag-wp-card-service
+          - step: *tag-wp-tabapay-service
+          - step: *tag-wp-visa-service
+          - step: *tag-wp-fidel-service
+          - step: *tag-wp-api-gateway
+          - step: *tag-wp-api-partner-v1
+          - step: *tag-wp-api-partner-v2
+          - step: *tag-wp-api-partner
+    'release-*':
+      - step: *compile
+      - parallel:
+          - step: *tag-wp-partner-service
+          - step: *tag-wp-merchant-service
+          - step: *tag-wp-gift-service
+          - step: *tag-wp-redemption-service
+          - step: *tag-wp-account-service
+          - step: *tag-wp-pnc-service
+          - step: *tag-wp-wcp-service
+          - step: *tag-wp-card-service
+          - step: *tag-wp-tabapay-service
+          - step: *tag-wp-visa-service
+          - step: *tag-wp-fidel-service
+          - step: *tag-wp-api-gateway
+          - step: *tag-wp-api-partner-v1
+          - step: *tag-wp-api-partner-v2
+          - step: *tag-wp-api-partner

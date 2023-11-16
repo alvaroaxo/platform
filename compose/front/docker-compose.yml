@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+
+  app-admin:
+    image: 75226642XXXX.dkr.ecr.us-east-2.amazonaws.com/wp-app-admin:sandbox
+    restart: always
+    hostname: app-admin
+    container_name: app-admin
+    environment:
+      PORT: 80
+      HOSTNAME: 0.0.0.0
+    ports:
+      - "80:80"
+    networks:
+      - compose-net
+
+networks:
+  compose-net:
+    external: true

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.wolfe.platform</groupId>
+        <artifactId>wp-parent-kafka</artifactId>
+        <version>1.0</version>
+        <relativePath>../wp-parent-kafka</relativePath>
+    </parent>
+
+    <artifactId>wp-kafka-redemption-model</artifactId>
+
+    <name>wp-kafka-redemption-model</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.wolfe.platform</groupId>
+            <artifactId>wp-core-kafka</artifactId>
+            <version>1.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro-maven-plugin</artifactId>
+                <version>${avro-maven-plugin.version}</version>
+                <configuration>
+                    <imports>
+                        <import>${project.basedir}/src/main/avro/redemption_recipient_phone_number.avsc</import>
+                        <import>${project.basedir}/src/main/avro/redemption_recipient_contact_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/redemption_recipient_personal_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/redemption_recipient_address.avsc</import>
+                        <import>${project.basedir}/src/main/avro/redemption_recipient_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/redemption_channel.avsc</import>
+                        <import>${project.basedir}/src/main/avro/redemption_partner_channel.avsc</import>
+                        <import>${project.basedir}/src/main/avro/redemption_gift_channel_config_card_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/redemption_gift_channel_config_pnc_info.avsc</import>
+                        <import>${project.basedir}/src/main/avro/redemption_gift_channel_config.avsc</import>
+                        <import>${project.basedir}/src/main/avro/redemption_gift_channel.avsc</import>
+                    </imports>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpaBuddyIdeaProjectConfig">
+    <option name="defaultUnitInitialized" value="true" />
+    <option name="renamerInitialized" value="true" />
+    <option name="sourceModelValue" value="wp-card-service" />
+    <option name="targetDbValue" value="88b21cd1-884c-4651-a7c8-57a3698ff26b" />
+    <option name="updateChangeLogPath" value="wp-tabapay-service/src/main/resources/db/changelog/db.changelog-tabapay.xml" />
+    <option name="updateDbConnectionName" value="ae3aa56b-0af9-44e4-8bbc-edfaa28dadca" />
+    <option name="liquibaseAuthor" value="Daniel Vargas" />
+  </component>
+</project>
